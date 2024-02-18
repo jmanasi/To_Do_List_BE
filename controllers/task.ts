@@ -8,11 +8,12 @@ export const getAllTasks = (req: Request, res: Response) => {
 };
 
 export const addTask = (req: Request, res: Response) => {
-    const { name, status } = req.body;
+    const { name, status,description } = req.body;
     const newTask: Task = {
       id: tasks.length + 1,
       name,
       status,
+      description,
     };
     tasks.push(newTask);
     res.status(201).json(newTask);
@@ -20,7 +21,7 @@ export const addTask = (req: Request, res: Response) => {
 
   export const updateTask = (req: Request, res: Response) => {
     const id = parseInt(req.body.id);
-    const { name, status } = req.body;
+    const { name, status,description } = req.body;
     const taskToUpdate = tasks.find(task => task.id === id);
     if (!taskToUpdate) {
       res.status(404).json({ error: 'Task not found' });
@@ -28,6 +29,7 @@ export const addTask = (req: Request, res: Response) => {
     }
     taskToUpdate.name = name;
     taskToUpdate.status = status;
+    taskToUpdate.description = description;
     res.json(taskToUpdate);
   };
   
@@ -35,5 +37,6 @@ export const addTask = (req: Request, res: Response) => {
     
     const id = parseInt(req.body.id);
     tasks = tasks.filter(task => task.id !== id);
-    res.status(201).json({success:'Task Deleted'});
+    // res.status(201).json({success:'Task Deleted'});
+    res.json(tasks)
   };
